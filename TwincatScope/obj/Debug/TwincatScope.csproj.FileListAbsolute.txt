@@ -5,7 +5,6 @@ C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\Microsoft.Direct
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\Microsoft.DirectX.Direct3D.dll
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\Microsoft.DirectX.xml
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\Microsoft.DirectX.Direct3D.xml
-C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.csprojAssemblyReference.cache
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.Form1.resources
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.Properties.Resources.resources
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.csproj.GenerateResource.cache
@@ -14,6 +13,7 @@ C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.csp
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.exe
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.pdb
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.Ads.dll
+C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.BaseUI.dll
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.Scope2.Charting.ChartControlLib_DX.dll
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.Scope2.Charting.ChartControlLib_GDI.dll
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.Scope2.Charting.ChartingBase.dll
@@ -22,3 +22,8 @@ C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.Scope2.E
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.Scope2.ScopeClient.dll
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.Scope2.Tools.dll
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwinCAT.Scope2.View.Control.dll
+C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwincatScope.exe.manifest
+C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwincatScope.application
+C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.exe.manifest
+C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.application
+C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.csprojAssemblyReference.cache

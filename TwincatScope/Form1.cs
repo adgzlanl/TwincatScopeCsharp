@@ -57,7 +57,8 @@ namespace TwincatScope
 
                     foreach (ScopeViewControlChannel channel in scopeViewControl2.ConnectedChannels)
                     {
-                        channel.Acquisition.AmsNetId = AmsNetId.Local;
+                        channel.Acquisition.AmsNetId = AmsNetId.Parse("192.168.0.2.1.1");
+                        channel.Acquisition.TargetPort = 851;
                     }
                 }
 
@@ -97,13 +98,22 @@ namespace TwincatScope
             }
             else
             {
-                ScopeViewControlChannel channel = scopeViewControl2.Charts[0].Axes[0].NewChannel();
-                ChangeChannelSettings(channel);
-                SetAcquisition(channel);
+                ScopeViewControlChannel channel1 = scopeViewControl2.Charts[0].Axes[0].NewChannel();
+                ChangeChannelSettings(channel1,Color.Red,Color.DarkRed);
+                SetAcquisition(channel1,"Scope.Abstand");
+                ScopeViewControlChannel channel2 = scopeViewControl2.Charts[0].Axes[1].NewChannel();
+                ChangeChannelSettings(channel2,Color.Green,Color.DarkGreen);
+                SetAcquisition(channel2, "Scope.ServoSpeed");
+                ScopeViewControlChannel channel3 = scopeViewControl2.Charts[0].Axes[2].NewChannel();
+                ChangeChannelSettings(channel3,Color.Orange,Color.DarkOrange);
+                SetAcquisition(channel3, "Scope.EncDistanz");
+                ScopeViewControlChannel channel4 = scopeViewControl2.Charts[0].Axes[3].NewChannel();
+                ChangeChannelSettings(channel4,Color.Blue,Color.DarkBlue);
+                SetAcquisition(channel4, "Scope.LuftDruck");
             }
         }
 
-        private void ChangeChannelSettings(ScopeViewControlChannel channel)
+        private void ChangeChannelSettings(ScopeViewControlChannel channel,Color colorLine,Color colorMark)
         {
             if (scopeViewControl2.Charts.Count == 0)
             {
@@ -119,13 +129,13 @@ namespace TwincatScope
             }
             else
             {
-                channel.Style.LineColor = Color.Red;
-                channel.Style.MarkColor = Color.DarkRed;
+                channel.Style.LineColor = colorLine;
+                channel.Style.MarkColor = colorMark;
                 channel.Style.LineWidth = 2;
             }
         }
 
-        private void SetAcquisition(ScopeViewControlChannel channel)
+        private void SetAcquisition(ScopeViewControlChannel channel,string Symbolname)
         {
             if (scopeViewControl2.Charts.Count == 0)
             {
@@ -142,12 +152,13 @@ namespace TwincatScope
             else
             {
                 // AmsNetId und AmsPort benötigen die TwinCAT.Ads.dll
-                channel.Acquisition.AmsNetId = AmsNetId.Local;
+                channel.Acquisition.AmsNetId = AmsNetId.Parse("192.168.0.2.1.1");
                 channel.Acquisition.TargetPort = 851;
                 channel.Acquisition.IsSymbolBased = true;
-                channel.Acquisition.SymbolName = "Variables.fStairs";
-                channel.Acquisition.DataType = DataTypeConverter.AdsToScope2Datatype(AdsDatatypeId.ADST_INT16);
-                channel.Acquisition.SampleTime = (uint)(10 * TimeSpan.TicksPerMillisecond);
+                channel.Acquisition.SymbolName = Symbolname;
+                channel.Acquisition.DataType = DataTypeConverter.AdsToScope2Datatype(AdsDatatypeId.ADST_REAL64);
+                channel.Acquisition.SampleTime = (uint)(1 * TimeSpan.TicksPerMillisecond);
+         
             }
         }
 
@@ -204,8 +215,8 @@ namespace TwincatScope
                     // wenn Daten da sind speichern
                     if (scopeViewControl2.State == ScopeViewControlStates.REPLY)
                     {
-                        File.Create("ExportData.svd").Close();
-                        scopeViewControl2.Operating.SaveData("ExportData.svd");
+                        File.Create(filename).Close();
+                        scopeViewControl2.Operating.SaveData(filename);
                     }
                     // sonst nur die Konfiguration speichern
                     else
