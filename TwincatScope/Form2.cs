@@ -14,7 +14,7 @@ namespace TwincatScope
     public partial class Form2 : Form
     {
         static String svdFile, destination;
-
+        int counter;
         ScopeViewControl control = new ScopeViewControl();
         public Form2()
         {
@@ -97,6 +97,7 @@ namespace TwincatScope
         {
      
             openFileDialog1.FileName = "";
+			openFileDialog1.FilterIndex=1;
             openFileDialog1.Filter = "Scope Files(*.svd)|*.svd|All files (*.*)|*.*";
             openFileDialog1.Title = "Scope Files hunterladen";
 
@@ -110,15 +111,19 @@ namespace TwincatScope
 
         private void textBox_Export_Click(object sender, EventArgs e)
         {
-
-
-
+            string DeviceNo = "18111";
+            string FirmaName = "Pfluka";
+            
+            DateTime now = DateTime.Now;
+            string format =  "yMd_m_s" ;
+            saveFileDialog1.FileName= DeviceNo + FirmaName + now.ToString(format); 
+			saveFileDialog1.Title = "Speichern Scope File in CVS"; 
             saveFileDialog1.DefaultExt = "cvs";
             saveFileDialog1.Filter = "csv Files (*.csv)|*.csv|Text Files(*.txt)| *.txt |svb Files(*.svb)| *.svb | tdms Files(*.tdms)| *.tdms| dat Files(*.dat)| *.dat| All files (*.*)|*.*";
 
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-
+                
                 destination = saveFileDialog1.FileName;
                 textBox_Export.Text = destination;
             }

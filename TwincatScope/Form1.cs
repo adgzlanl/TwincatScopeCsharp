@@ -26,7 +26,13 @@ namespace TwincatScope
             InitializeComponent();
             dataGridView1.Columns.Add("Time", "Position");
             dataGridView1.Columns.Add("Cursor", "Cursor\\Charts");
+            /* dataGridView1.Columns.Add("Scope.Abstand", "Sensor Abstand");
+            dataGridView1.Columns.Add("Scope.ServoSpeed", "Die Rolle Gesch.");
+            dataGridView1.Columns.Add("Scope.EncDistanz", "Strecke");
+            dataGridView1.Columns.Add("Scope.LuftDruck", "LuftDruck");
+            */
             dataGridView1.Rows.Clear();
+            
         }
 
 
@@ -34,6 +40,7 @@ namespace TwincatScope
         {
             string filename = "";
             openFileDialog1.FileName = "";
+            openFileDialog1.FilterIndex = 3;
             openFileDialog1.Filter = "CSV Files (*.csv)|*.csv|Scope Files(*.sv2)|*.sv2|Scope Files(*.svd)|*.svd|Scope Files(*.tcscope)|*.tcscope|All files (*.*)|*.*";
             openFileDialog1.Title="Scope Files hunterladen";
 
@@ -107,6 +114,7 @@ namespace TwincatScope
                 ScopeViewControlChannel channel1 = scopeViewControl2.Charts[0].Axes[0].NewChannel();
                 ChangeChannelSettings(channel1,Color.Red,Color.DarkRed);
                 SetAcquisition(channel1,"Scope.Abstand");
+                
                 ScopeViewControlChannel channel2 = scopeViewControl2.Charts[0].Axes[1].NewChannel();
                 ChangeChannelSettings(channel2,Color.Green,Color.DarkGreen);
                 SetAcquisition(channel2, "Scope.ServoSpeed");
@@ -172,6 +180,7 @@ namespace TwincatScope
                 channel.Acquisition.SymbolName = Symbolname;
                 channel.Acquisition.DataType = DataTypeConverter.AdsToScope2Datatype(AdsDatatypeId.ADST_REAL64);
                 channel.Acquisition.SampleTime = (uint)(1 * TimeSpan.TicksPerMillisecond);
+            
          
             }
         }
@@ -303,7 +312,7 @@ namespace TwincatScope
                 dataGridView1.Rows.Insert(scopeViewControl2.Charts[0].CursorModule.XCursor.Count - 1, newCursor.StatusTimes.ChartPositionTime.ToString(), newCursor.Style.Name);
                 dataGridView1.Rows[scopeViewControl2.Charts[0].CursorModule.XCursor.Count - 1].Cells[1].Style.ForeColor = newCursor.Style.Color;
                 resfreshX(newCursor, null);
-                setXDeltaView();
+                //setXDeltaView();
             }
             catch (Exception) { }
         }
@@ -454,6 +463,11 @@ namespace TwincatScope
         {
             Form2 form2= new Form2();
             form2.Show();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

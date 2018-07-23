@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.label_Destination = new System.Windows.Forms.Label();
             this.labelSVD = new System.Windows.Forms.Label();
             this.textBox_Export = new System.Windows.Forms.TextBox();
@@ -62,7 +63,6 @@
             this.textBox_Export.Size = new System.Drawing.Size(486, 20);
             this.textBox_Export.TabIndex = 7;
             this.textBox_Export.Click += new System.EventHandler(this.textBox_Export_Click);
-     
             // 
             // textBox_SVD
             // 
@@ -96,8 +96,9 @@
             this.Controls.Add(this.textBox_Export);
             this.Controls.Add(this.textBox_SVD);
             this.Controls.Add(this.export_button);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "Twincat Scope .NET API Test Program";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
