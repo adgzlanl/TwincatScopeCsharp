@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            TwinCAT.Scope2.Tools.EventList<TwinCAT.Scope2.View.ScopeViewControlLib.ScopeViewControlChannel> eventList_11 = new TwinCAT.Scope2.Tools.EventList<TwinCAT.Scope2.View.ScopeViewControlLib.ScopeViewControlChannel>();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            TwinCAT.Scope2.Tools.EventList<TwinCAT.Scope2.View.ScopeViewControlLib.ScopeViewControlChannel> eventList_12 = new TwinCAT.Scope2.Tools.EventList<TwinCAT.Scope2.View.ScopeViewControlLib.ScopeViewControlChannel>();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.button_Load = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -44,10 +45,20 @@
             this.button_Pause = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonDelChart = new System.Windows.Forms.ToolStripButton();
+            this.buttonXCursor = new System.Windows.Forms.ToolStripButton();
+            this.buttonDeleteXC = new System.Windows.Forms.ToolStripButton();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.scopeViewControl2 = new TwinCAT.Scope2.View.ScopeViewControlLib.ScopeViewControl();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ScopeExport = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -66,7 +77,10 @@
             this.button_Run,
             this.button_Pause,
             this.toolStripSeparator4,
-            this.toolStripButtonDelChart});
+            this.toolStripButtonDelChart,
+            this.buttonXCursor,
+            this.buttonDeleteXC,
+            this.ScopeExport});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1263, 25);
@@ -183,6 +197,25 @@
             this.toolStripButtonDelChart.Text = "DelChart";
             this.toolStripButtonDelChart.Click += new System.EventHandler(this.toolStripButtonDelChart_Click);
             // 
+            // buttonXCursor
+            // 
+            this.buttonXCursor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buttonXCursor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonXCursor.Name = "buttonXCursor";
+            this.buttonXCursor.Size = new System.Drawing.Size(81, 22);
+            this.buttonXCursor.Text = "Add X Cursor";
+            this.buttonXCursor.Click += new System.EventHandler(this.buttonXCursor_Click);
+            // 
+            // buttonDeleteXC
+            // 
+            this.buttonDeleteXC.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buttonDeleteXC.Image = ((System.Drawing.Image)(resources.GetObject("buttonDeleteXC.Image")));
+            this.buttonDeleteXC.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buttonDeleteXC.Name = "buttonDeleteXC";
+            this.buttonDeleteXC.Size = new System.Drawing.Size(92, 22);
+            this.buttonDeleteXC.Text = "Delete X Cursor";
+            this.buttonDeleteXC.Click += new System.EventHandler(this.buttonDeleteXC_Click);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -191,12 +224,12 @@
             // 
             this.scopeViewControl2.AllowDrop = true;
             this.scopeViewControl2.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.scopeViewControl2.ConnectedChannels = eventList_11;
+            this.scopeViewControl2.ConnectedChannels = eventList_12;
             this.scopeViewControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scopeViewControl2.IsWizardTemplate = false;
-            this.scopeViewControl2.Location = new System.Drawing.Point(0, 25);
+            this.scopeViewControl2.Location = new System.Drawing.Point(0, 0);
             this.scopeViewControl2.Name = "scopeViewControl2";
-            this.scopeViewControl2.Size = new System.Drawing.Size(1263, 561);
+            this.scopeViewControl2.Size = new System.Drawing.Size(1263, 280);
             this.scopeViewControl2.SortPriority = -1;
             this.scopeViewControl2.SuppressMessages = false;
             this.scopeViewControl2.TabIndex = 2;
@@ -205,18 +238,61 @@
             this.scopeViewControl2.UseGraphic = TwinCAT.Scope2.View.ScopeViewControlLib.GraphicLibrary.GDI_Plus;
             this.scopeViewControl2.ViewDetailLevel = TwinCAT.Scope2.Communications.ScopeViewDetailLevel.Default;
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.scopeViewControl2);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Size = new System.Drawing.Size(1263, 561);
+            this.splitContainer1.SplitterDistance = 280;
+            this.splitContainer1.TabIndex = 3;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(1263, 277);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // ScopeExport
+            // 
+            this.ScopeExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ScopeExport.Image = ((System.Drawing.Image)(resources.GetObject("ScopeExport.Image")));
+            this.ScopeExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ScopeExport.Name = "ScopeExport";
+            this.ScopeExport.Size = new System.Drawing.Size(79, 22);
+            this.ScopeExport.Text = "Scope Export";
+            this.ScopeExport.Click += new System.EventHandler(this.ScopeExport_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 586);
-            this.Controls.Add(this.scopeViewControl2);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -243,6 +319,11 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private TwinCAT.Scope2.View.ScopeViewControlLib.ScopeViewControl scopeViewControl2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ToolStripButton buttonXCursor;
+        private System.Windows.Forms.ToolStripButton buttonDeleteXC;
+        private System.Windows.Forms.ToolStripButton ScopeExport;
     }
 }
 

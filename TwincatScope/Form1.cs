@@ -24,6 +24,9 @@ namespace TwincatScope
         public Form1()
         {
             InitializeComponent();
+            dataGridView1.Columns.Add("Time", "Position");
+            dataGridView1.Columns.Add("Cursor", "Cursor\\Charts");
+            dataGridView1.Rows.Clear();
         }
 
 
@@ -59,6 +62,9 @@ namespace TwincatScope
                     {
                         channel.Acquisition.AmsNetId = AmsNetId.Parse("192.168.0.2.1.1");
                         channel.Acquisition.TargetPort = 851;
+                        dataGridView1.Columns.Add(channel.Acquisition.SymbolName, channel.Acquisition.SymbolName);
+                        dataGridView1.Columns[channel.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel.Style.Color;
+                
                     }
                 }
 
@@ -110,6 +116,14 @@ namespace TwincatScope
                 ScopeViewControlChannel channel4 = scopeViewControl2.Charts[0].Axes[3].NewChannel();
                 ChangeChannelSettings(channel4,Color.Blue,Color.DarkBlue);
                 SetAcquisition(channel4, "Scope.LuftDruck");
+                dataGridView1.Columns.Add(channel1.Acquisition.SymbolName, channel1.Acquisition.SymbolName);
+                dataGridView1.Columns[channel1.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel1.Style.Color;
+                dataGridView1.Columns.Add(channel2.Acquisition.SymbolName, channel2.Acquisition.SymbolName);
+                dataGridView1.Columns[channel2.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel2.Style.Color;
+                dataGridView1.Columns.Add(channel3.Acquisition.SymbolName, channel3.Acquisition.SymbolName);
+                dataGridView1.Columns[channel3.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel3.Style.Color;
+                dataGridView1.Columns.Add(channel4.Acquisition.SymbolName, channel4.Acquisition.SymbolName);
+                dataGridView1.Columns[channel4.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel4.Style.Color;
             }
         }
 
@@ -276,9 +290,170 @@ namespace TwincatScope
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
+
+        private void buttonXCursor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ScopeViewControlCursor newCursor = scopeViewControl2.Charts[0].CursorModule.NewCursor(false);
+                newCursor.ChannelValuesChanged += new System.EventHandler(this.resfreshX);
+                newCursor.StatusTimesChanged += new System.EventHandler(this.timeRefreshX);
+                newCursor.Selected += new System.EventHandler(this.actCursorRefresh);
+                dataGridView1.Rows.Insert(scopeViewControl2.Charts[0].CursorModule.XCursor.Count - 1, newCursor.StatusTimes.ChartPositionTime.ToString(), newCursor.Style.Name);
+                dataGridView1.Rows[scopeViewControl2.Charts[0].CursorModule.XCursor.Count - 1].Cells[1].Style.ForeColor = newCursor.Style.Color;
+                resfreshX(newCursor, null);
+                setXDeltaView();
+            }
+            catch (Exception) { }
+        }
+
+
+        private void setXDeltaView()
+        {
+            //delete old values
+            while (scopeViewControl2.Charts[0].CursorModule.XCursor.Count != dataGridView1.Rows.Count)
+            {
+                dataGridView1.Rows.RemoveAt(dataGridView1.Rows.Count - 1);
+            }
+            //set new values
+            for (int i = 0; i < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; i++)
+            {
+                for (int k = i + 1; k < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; k++)
+                {
+                    dataGridView1.Rows.Add(TimeSpan.Parse(dataGridView1[0, i].Value.ToString()) - TimeSpan.Parse(dataGridView1[0, k].Value.ToString()), dataGridView1[1, i].Value + " - " + dataGridView1[1, k].Value);
+                    for (int h = 2; h < scopeViewControl2.Charts[0].Axes[0].Channels.Count + 2; h++)
+                    {
+                        if (dataGridView1[h, k].Value != null)
+                        {
+                            dataGridView1[h, dataGridView1.Rows.Count - 1].Value = Convert.ToDouble(dataGridView1[h, i].Value) - Convert.ToDouble(dataGridView1[h, k].Value);
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.D)
+            {
+                try
+                {
+                    scopeViewControl2.Charts[0].CursorModule.XCursor[dataGridView1.SelectedCells[0].RowIndex].MoveCursor(5);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("There is no X-Axis to move!");
+                }
+            }
+            else if (e.KeyCode == Keys.A)
+            {
+                try
+                {
+                    scopeViewControl2.Charts[0].CursorModule.XCursor[dataGridView1.SelectedCells[0].RowIndex].MoveCursor(-5);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("There is no X-Axis to move!");
+                }
+            }
+        }
+
+
+        private void actCursorRefresh(object sender, EventArgs e)
+        {
+            ScopeViewControlCursor tmpCursor = (ScopeViewControlCursor)sender;
+
+            if (tmpCursor.Style.Orientation == TwinCAT.Scope2.Charting.ChartingBase.CursorDirection.Vertical)
+            {
+                for (int i = 0; i < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; i++)
+                {
+                    if (tmpCursor == scopeViewControl2.Charts[0].CursorModule.XCursor[i])
+                    {
+                        dataGridView1.ClearSelection();
+                        dataGridView1[1, i].Selected = true;
+                    }
+                }
+            }
+
+        }
+
+        //Refresh the chart
+
+        private void resfreshX(object sender, EventArgs e)
+        {
+            try
+            {
+                ScopeViewControlCursor tmpCursor = (ScopeViewControlCursor)sender;
+                //set new channel value
+                for (int k = 0; k < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; k++)
+                {
+                    if (scopeViewControl2.Charts[0].CursorModule.XCursor[k] == tmpCursor)
+                    {
+                        for (int j = 0; j < tmpCursor.ChannelValues.Count; j++)
+                        {
+                            dataGridView1[j + 2, k].Value = tmpCursor.ChannelValues[j];
+                        }
+                        break;
+                    }
+                }
+                //refresh all delta values
+                int m = scopeViewControl2.Charts[0].CursorModule.XCursor.Count;
+                for (int i = 0; i < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; i++)
+                {
+                    for (int k = i + 1; k < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; k++)
+                    {
+                        for (int h = 2; h < scopeViewControl2.Charts[0].Axes[0].Channels.Count + 2; h++)
+                        {
+                            if (dataGridView1[h, k].Value != null)
+                            {
+                                dataGridView1[h, m].Value = Convert.ToDouble(dataGridView1[h, i].Value) - Convert.ToDouble(dataGridView1[h, k].Value);
+                            }
+                        }
+                        m++;
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+
+
+        private void timeRefreshX(object sender, EventArgs e)
+        {
+            //refresh the cursortime
+            for (int i = 0; i < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; i++)
+            {
+                dataGridView1[0, i].Value = scopeViewControl2.Charts[0].CursorModule.XCursor[i].StatusTimes.ChartPositionTime.ToString();
+            }
+            //refresh the deltatime
+            int m = scopeViewControl2.Charts[0].CursorModule.XCursor.Count;
+            for (int i = 0; i < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; i++)
+            {
+                for (int k = i + 1; k < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; k++)
+                {
+                    dataGridView1[0, m].Value = TimeSpan.Parse(dataGridView1[0, i].Value.ToString()) - TimeSpan.Parse(dataGridView1[0, k].Value.ToString());
+                    m++;
+                }
+            }
+        }
+
+        private void buttonDeleteXC_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                scopeViewControl2.Charts[0].CursorModule.DeleteCursor(scopeViewControl2.Charts[0].CursorModule.XCursor[dataGridView1.SelectedCells[0].RowIndex]);
+                dataGridView1.Rows.RemoveAt(dataGridView1.SelectedCells[0].RowIndex);
+                setXDeltaView();
+            }
+            catch (Exception) { }
+        }
+
+        private void ScopeExport_Click(object sender, EventArgs e)
+        {
+            Form2 form2= new Form2();
+            form2.Show();
         }
     }
 }

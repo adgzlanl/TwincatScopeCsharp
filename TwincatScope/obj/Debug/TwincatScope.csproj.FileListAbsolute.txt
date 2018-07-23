@@ -27,3 +27,4 @@ C:\Users\Admin\source\repos\TwincatScope\TwincatScope\bin\Debug\TwincatScope.app
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.exe.manifest
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.application
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.csprojAssemblyReference.cache
+C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.Form2.resources
