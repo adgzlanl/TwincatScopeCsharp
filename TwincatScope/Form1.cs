@@ -21,18 +21,21 @@ namespace TwincatScope
 {
     public partial class Form1 : Form
     {
+        ScopeViewControlYAxis AbstandAxis;
+        ScopeViewControlYAxis ServoSpeedAxis;
+        ScopeViewControlYAxis EncDistanzAxis;
+        ScopeViewControlYAxis LuftDruckAxis;
         public Form1()
         {
             InitializeComponent();
-            dataGridView1.Columns.Add("Time", "Position");
-            dataGridView1.Columns.Add("Cursor", "Cursor\\Charts");
-            /* dataGridView1.Columns.Add("Scope.Abstand", "Sensor Abstand");
-            dataGridView1.Columns.Add("Scope.ServoSpeed", "Die Rolle Gesch.");
-            dataGridView1.Columns.Add("Scope.EncDistanz", "Strecke");
-            dataGridView1.Columns.Add("Scope.LuftDruck", "LuftDruck");
+            /*  dataGridView1.Columns.Add("Time", "Position");
+                dataGridView1.Columns.Add("Cursor", "Cursor\\Charts");
+                dataGridView1.Columns.Add("Scope.Abstand", "Sensor Abstand");
+                dataGridView1.Columns.Add("Scope.ServoSpeed", "Die Rolle Gesch.");
+                dataGridView1.Columns.Add("Scope.EncDistanz", "Strecke");
+                dataGridView1.Columns.Add("Scope.LuftDruck", "LuftDruck");
+                dataGridView1.Rows.Clear();
             */
-            dataGridView1.Rows.Clear();
-            
         }
 
 
@@ -69,8 +72,8 @@ namespace TwincatScope
                     {
                         channel.Acquisition.AmsNetId = AmsNetId.Parse("192.168.0.2.1.1");
                         channel.Acquisition.TargetPort = 851;
-                        dataGridView1.Columns.Add(channel.Acquisition.SymbolName, channel.Acquisition.SymbolName);
-                        dataGridView1.Columns[channel.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel.Style.Color;
+                        //dataGridView1.Columns.Add(channel.Acquisition.SymbolName, channel.Acquisition.SymbolName);
+                        //dataGridView1.Columns[channel.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel.Style.Color;
                 
                     }
                 }
@@ -81,6 +84,56 @@ namespace TwincatScope
         private void buttonChart_Click(object sender, EventArgs e)
         {
             ScopeViewControlChart chart = scopeViewControl2.NewChart();
+
+
+
+            if (scopeViewControl2.Charts.Count == 0)
+            {
+                MessageBox.Show(this, "Please create a chart first!", "No chart connected!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            else
+            {
+
+                AxisSettings(AbstandAxis, "Abstand");
+                AxisSettings(ServoSpeedAxis, "Servospeed");
+                AxisSettings(EncDistanzAxis, "Strecke");
+                AxisSettings(LuftDruckAxis, "Luftdruck");
+
+            }
+
+
+
+            if (scopeViewControl2.Charts.Count == 0)
+            {
+                MessageBox.Show(this, "Please create a chart first!", "No chart connected!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (scopeViewControl2.Charts[0].Axes.Count == 0)
+            {
+                MessageBox.Show(this, "Please create an YAxis first!", "No axis connected!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (scopeViewControl2.Charts[0].Axes[0].Channels.Count > 0)
+            {
+                MessageBox.Show(this, "This sample contains only one channel!", "Channel still connected!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                ScopeViewControlChannel channel1 = scopeViewControl2.Charts[0].Axes[0].NewChannel();
+                ChangeChannelSettings(channel1, Color.Red, Color.DarkRed);
+                SetAcquisition(channel1, "Scope.Abstand");
+
+                ScopeViewControlChannel channel2 = scopeViewControl2.Charts[0].Axes[1].NewChannel();
+                ChangeChannelSettings(channel2, Color.Green, Color.DarkGreen);
+                SetAcquisition(channel2, "Scope.ServoSpeed");
+                ScopeViewControlChannel channel3 = scopeViewControl2.Charts[0].Axes[2].NewChannel();
+                ChangeChannelSettings(channel3, Color.Orange, Color.DarkOrange);
+                SetAcquisition(channel3, "Scope.EncDistanz");
+                ScopeViewControlChannel channel4 = scopeViewControl2.Charts[0].Axes[3].NewChannel();
+                ChangeChannelSettings(channel4, Color.Blue, Color.DarkBlue);
+                SetAcquisition(channel4, "Scope.LuftDruck");
+
+            }
+
         }
 
         private void buttonAxis_Click(object sender, EventArgs e)
@@ -91,7 +144,12 @@ namespace TwincatScope
             }
             else
             {
-                ScopeViewControlYAxis axis = scopeViewControl2.Charts[0].NewAxis();
+                
+                AxisSettings(AbstandAxis, "Abstand");
+                AxisSettings(ServoSpeedAxis, "Servospeed");
+                AxisSettings(EncDistanzAxis, "Strecke");
+                AxisSettings(LuftDruckAxis, "Luftdruck");
+
             }
         }
 
@@ -124,7 +182,7 @@ namespace TwincatScope
                 ScopeViewControlChannel channel4 = scopeViewControl2.Charts[0].Axes[3].NewChannel();
                 ChangeChannelSettings(channel4,Color.Blue,Color.DarkBlue);
                 SetAcquisition(channel4, "Scope.LuftDruck");
-                dataGridView1.Columns.Add(channel1.Acquisition.SymbolName, channel1.Acquisition.SymbolName);
+                /*dataGridView1.Columns.Add(channel1.Acquisition.SymbolName, channel1.Acquisition.SymbolName);
                 dataGridView1.Columns[channel1.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel1.Style.Color;
                 dataGridView1.Columns.Add(channel2.Acquisition.SymbolName, channel2.Acquisition.SymbolName);
                 dataGridView1.Columns[channel2.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel2.Style.Color;
@@ -132,7 +190,15 @@ namespace TwincatScope
                 dataGridView1.Columns[channel3.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel3.Style.Color;
                 dataGridView1.Columns.Add(channel4.Acquisition.SymbolName, channel4.Acquisition.SymbolName);
                 dataGridView1.Columns[channel4.Acquisition.SymbolName].DefaultCellStyle.ForeColor = channel4.Style.Color;
+                */
             }
+        }
+
+        private void AxisSettings (ScopeViewControlYAxis axis,string AxisName)
+        {
+                axis= scopeViewControl2.Charts[0].NewAxis();
+                axis.Caption = AxisName;
+                
         }
 
         private void ChangeChannelSettings(ScopeViewControlChannel channel,Color colorLine,Color colorMark)
@@ -224,7 +290,11 @@ namespace TwincatScope
         private void button_Save_Click(object sender, EventArgs e)
         {
             string filename = "";
-            
+            string DeviceNo = "18111";
+            string FirmaName = "Pfluka";
+            DateTime now = DateTime.Now;
+            string format = "yMd_m_s";
+            saveFileDialog1.FileName = DeviceNo + FirmaName + now.ToString(format);           
             saveFileDialog1.DefaultExt = "svd";
             saveFileDialog1.Filter ="Scope files (*.svd)|*.svd|All files (*.*)|*.*";
 
@@ -303,7 +373,7 @@ namespace TwincatScope
 
         private void buttonXCursor_Click(object sender, EventArgs e)
         {
-            try
+          /*  try
             {
                 ScopeViewControlCursor newCursor = scopeViewControl2.Charts[0].CursorModule.NewCursor(false);
                 newCursor.ChannelValuesChanged += new System.EventHandler(this.resfreshX);
@@ -315,11 +385,13 @@ namespace TwincatScope
                 //setXDeltaView();
             }
             catch (Exception) { }
+            */
         }
 
 
         private void setXDeltaView()
         {
+            /*
             //delete old values
             while (scopeViewControl2.Charts[0].CursorModule.XCursor.Count != dataGridView1.Rows.Count)
             {
@@ -340,12 +412,14 @@ namespace TwincatScope
                     }
                 }
             }
+            */
         }
 
 
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            /*
             if (e.KeyCode == Keys.D)
             {
                 try
@@ -368,11 +442,13 @@ namespace TwincatScope
                     MessageBox.Show("There is no X-Axis to move!");
                 }
             }
+            */
         }
 
 
         private void actCursorRefresh(object sender, EventArgs e)
         {
+            /*
             ScopeViewControlCursor tmpCursor = (ScopeViewControlCursor)sender;
 
             if (tmpCursor.Style.Orientation == TwinCAT.Scope2.Charting.ChartingBase.CursorDirection.Vertical)
@@ -386,13 +462,14 @@ namespace TwincatScope
                     }
                 }
             }
-
+            */
         }
 
         //Refresh the chart
 
         private void resfreshX(object sender, EventArgs e)
         {
+            /*
             try
             {
                 ScopeViewControlCursor tmpCursor = (ScopeViewControlCursor)sender;
@@ -426,11 +503,13 @@ namespace TwincatScope
                 }
             }
             catch (Exception) { }
+            */
         }
 
 
         private void timeRefreshX(object sender, EventArgs e)
         {
+            /*
             //refresh the cursortime
             for (int i = 0; i < scopeViewControl2.Charts[0].CursorModule.XCursor.Count; i++)
             {
@@ -446,10 +525,12 @@ namespace TwincatScope
                     m++;
                 }
             }
+            */
         }
 
         private void buttonDeleteXC_Click(object sender, EventArgs e)
         {
+            /*
             try
             {
                 scopeViewControl2.Charts[0].CursorModule.DeleteCursor(scopeViewControl2.Charts[0].CursorModule.XCursor[dataGridView1.SelectedCells[0].RowIndex]);
@@ -457,6 +538,7 @@ namespace TwincatScope
                 setXDeltaView();
             }
             catch (Exception) { }
+            */
         }
 
         private void ScopeExport_Click(object sender, EventArgs e)
@@ -469,5 +551,6 @@ namespace TwincatScope
         {
 
         }
+
     }
 }

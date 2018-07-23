@@ -217,14 +217,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TwincatScope.exe" size="816096">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TwincatScope.exe" size="810976">
       <assemblyIdentity name="TwincatScope" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>4kswJxPY5jMJILtV/FYni1eAKmCFsPBIO6uKulMzUQQ=</dsig:DigestValue>
+        <dsig:DigestValue>HNxH+zdN2ZrvL5suBoHA8biyudRVe+wOYWg5ba9F66Q=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

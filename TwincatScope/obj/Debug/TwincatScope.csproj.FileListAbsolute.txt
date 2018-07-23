@@ -25,3 +25,4 @@ C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.exe
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.application
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.exe
 C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.pdb
+C:\Users\Admin\source\repos\TwincatScope\TwincatScope\obj\Debug\TwincatScope.csprojResolveAssemblyReference.cache
